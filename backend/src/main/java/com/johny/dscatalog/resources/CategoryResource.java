@@ -1,6 +1,6 @@
 package com.johny.dscatalog.resources;
 
-import com.johny.dscatalog.entities.Category;
+import com.johny.dscatalog.dto.CategoryDTO;
 import com.johny.dscatalog.services.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class CategoryResource {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
+    public ResponseEntity<List<CategoryDTO>> findAll() {
         return ResponseEntity.ok().body(categoryService.findAll());
     }
 
