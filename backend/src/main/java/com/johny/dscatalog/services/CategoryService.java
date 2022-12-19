@@ -7,6 +7,7 @@ import com.johny.dscatalog.services.exceptions.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,5 +32,15 @@ public class CategoryService {
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 
         return new CategoryDTO(category);
+    }
+
+    @Transactional
+    public CategoryDTO insert(CategoryDTO categoryDTO) {
+
+        Category category = Category.builder().name(categoryDTO.getName()).build();
+
+        Category categorySave = categoryRepository.save(category);
+
+        return new CategoryDTO(categorySave);
     }
 }
