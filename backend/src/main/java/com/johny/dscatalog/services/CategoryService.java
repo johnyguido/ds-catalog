@@ -3,8 +3,11 @@ package com.johny.dscatalog.services;
 import com.johny.dscatalog.dto.CategoryDTO;
 import com.johny.dscatalog.entities.Category;
 import com.johny.dscatalog.repositories.CategoryRepository;
+import com.johny.dscatalog.services.exceptions.DatabaseException;
 import com.johny.dscatalog.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -60,5 +63,16 @@ public class CategoryService {
             throw new ResourceNotFoundException("Categoria não encontrada " + id);
         }
 
+    }
+
+    public void delete(Long id) {
+        try{
+            categoryRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new ResourceNotFoundException("ID não encontrado " + id);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Integerity violation");
+        }
     }
 }
