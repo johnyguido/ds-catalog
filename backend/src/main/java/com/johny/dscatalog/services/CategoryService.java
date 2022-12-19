@@ -8,6 +8,8 @@ import com.johny.dscatalog.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -74,5 +76,12 @@ public class CategoryService {
         catch (DataIntegrityViolationException e){
             throw new DatabaseException("Integerity violation");
         }
+    }
+
+    @Transactional
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest ){
+        Page<Category>  list = categoryRepository.findAll(pageRequest);
+        return list.map(x-> new CategoryDTO(x));
+
     }
 }
